@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package chat.v1;
+
+option go_package = "grpc-ai-chat/pkg/api/chat/v1";
+
+// ============== USER SERVICE ==============
+
+service UserService {
+  // Unary RPC untuk login
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+  // Unary RPC untuk register
+  rpc Register(RegisterRequest) returns (RegisterResponse) {}
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
+  string user_id = 2;
+  string username = 3;
+  int32 expires_in = 4;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string password = 2;
+  string full_name = 3;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+  string user_id = 3;
+}
+
+// ============== ROOM SERVICE ==============
+
+service RoomService {
+  // Unary RPC untuk create room
+  rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse) {}
+  // Unary RPC untuk list rooms
+  rpc ListRooms(ListRoomsRequest) returns (ListRoomsResponse) {}
+  // Unary RPC untuk join room
+  rpc JoinRoom(JoinRoomRequest) returns (JoinRoomResponse) {}
+  // Unary RPC untuk leave room
+  rpc LeaveRoom(LeaveRoomRequest) returns (LeaveRoomResponse) {}
+}
+
+message CreateRoomRequest {
+  string token = 1;
+  string room_name = 2;
+  string description = 3;
+  bool is_ai_enabled = 4;
+}
+
+message CreateRoomResponse {
+  bool success = 1;
+  string room_id = 2;
+  string room_name = 3;
+  string message = 4;
+}
+
+message ListRoomsRequest {
+  string token = 1;
+}
+
+message RoomInfo {
+  string room_id = 1;
+  string room_name = 2;
+  string description = 3;
+  int32 member_count = 4;
+  bool is_ai_enabled = 5;
+  int64 created_at = 6;
+}
+
+message ListRoomsResponse {
+  repeated RoomInfo rooms = 1;
+  int32 total = 2;
+}
+
+message JoinRoomRequest {
+  string token = 1;
+  string room_id = 2;
+}
+
+message JoinRoomResponse {
+  bool success = 1;
+  string message = 2;
+  RoomInfo room_info = 3;
+}
+
+message LeaveRoomRequest {
+  string token = 1;
+  string room_id = 2;
+}
+
+message LeaveRoomResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// ============== CHAT SERVICE ==============
+
+service ChatService {
+  // Bidirectional streaming RPC untuk real-time chat
+  rpc Chat(stream ChatMessage) returns (stream ChatMessage) {}
+}
+
+message ChatMessage {
+  string message_id = 1;
+  string user_id = 2;
+  string username = 3;
+  string room_id = 4;
+  string content = 5;
+  int64 timestamp = 6;
+  string message_type = 7;  // "user", "ai", "system"
+  bool is_ai_response = 8;
+  string error_message = 9;
+}
