@@ -1,5 +1,7 @@
 # gRPC AI Chat Application
 
+# Oscaryavat Viryavan 5027241053
+
 Aplikasi chat real-time dengan AI menggunakan gRPC dan Go, dilengkapi dengan integrasi Grok API.
 
 ## 📋 Fitur
@@ -391,17 +393,4 @@ Tambahkan:
 - Metrics collection (Prometheus)
 - Tracing (Jaeger)
 
-## 📖 References
 
-- [gRPC Documentation](https://grpc.io/docs/languages/go/)
-- [Protocol Buffers](https://protobuf.dev/)
-- [JWT Authentication](https://jwt.io/)
-- [Grok API Documentation](https://x.ai/)
-
-## 📄 License
-
-MIT License
-
-## 👨‍💻 Author
-
-Created for gRPC AI Chat Tutorial
